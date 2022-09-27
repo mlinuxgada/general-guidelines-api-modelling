@@ -30,7 +30,7 @@ If we want to add document to the load, atm we get the whole load, upload the fi
  	PUT .../v1/loads/{loadID}
 
  - use:
- 	GET .../v1/users/{userID}/wallets/{walletID} ... with all needed checks/conditions
+ 	POST .../v1/loads/{loadID}/documents
 
 #### Use expressive url namings - simpler, the better
  - Use simple names, instead:
@@ -57,17 +57,17 @@ If we want to add document to the load, atm we get the whole load, upload the fi
  	{"trace_id": "9a8sd8kjsfksdf7s6df", message": "asdas", "type": "handler|validation\...", "errors": ...}
 
 #### Be consistent
-	- When dealing with ReST endpoints use:
-		 .../users
-		 .../users/123
+ - When dealing with ReST endpoints use:
+	.../users
+	.../users/123
 
-		 Instead of 
-		 .../users
-		 .../user/123
+	Instead of 
+	.../users
+	.../user/123
 
-	 - Use same/geenrally accepted headers accross all endpoints
-	 - Use same err response struct
-	 - Use 404 for not found, 400 for general client err. Return 200 ok and inside : {"error": "Try again later ..."} omg
+ - Use same/geenrally accepted headers accross all endpoints
+ - Use same err response struct
+ - Use 404 for not found, 400 for general client err. Return 200 ok and inside : {"error": "Try again later ..."} omg
 
  
 #### All date fields must be the RFC3339 format
@@ -91,32 +91,34 @@ If we want to add document to the load, atm we get the whole load, upload the fi
 
 #### Entities should include subresource links, not the real entities by default
  - Imagine order and order lines - normally, when getting order by id /for instance/, we have ord lines as links
-		 {
-		 	"id": 123,
-		 	"order_number": "000123123",
-		 	"email": "john@noname.com",
-		 	..
-		 	order_lines:[
-		 		"https://.../v1/orders/123/order_lines/345",
-		 		...
-		 	],
-		 	...
-		 }
-
+ ```
+ {
+    "id": 123,
+    "order_number": "000123123",
+    "email": "john@noname.com",
+    ..
+    order_lines:[
+        "https://.../v1/orders/123/order_lines/345",
+        ...
+    ],
+    ...
+ }
+```
  	If we need the real/full entities, we must define param, like url...?expand=true, or ..?detailed=true. Then the response will have not list with order lines links, but the fully composed order lines entities, like:
-
-		{
-		 	"id": 123,
-		 	"order_number": "000123123",
-		 	"email": "john@noname.com",
-		 	..
-		 	order_lines:[
-		 		{
-		 			"id": 345,
-		 			"item_id": 111,
-		 			"qty": 2,
-		 			...
-		 		}
-		 	],
-		 	...
-		 } 
+```
+{
+    "id": 123,
+    "order_number": "000123123",
+    "email": "john@noname.com",
+    ..
+    order_lines:[
+        {
+            "id": 345,
+            "item_id": 111,
+            "qty": 2,
+            ...
+        }
+    ],
+    ...
+ }
+ ```
