@@ -104,7 +104,7 @@ If we want to add document to the load, atm we get the whole load, upload the fi
     ...
  }
 ```
- 	If we need the real/full entities, we must define param, like url...?expand=true, or ..?detailed=true. Then the response will have not list with order lines links, but the fully composed order lines entities, like:
+If we need the real/full entities, we must define param, like url...?expand=true, or ..?detailed=true. Then the response will have not list with order lines links, but the fully composed order lines entities, like:
 ```
 {
     "id": 123,
